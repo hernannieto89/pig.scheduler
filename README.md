@@ -1,1 +1,1 @@
-# rpyc-scheduler
+# pig.scheduler
