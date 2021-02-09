@@ -1,9 +1,8 @@
-import rpyc
 from rpyc.utils.server import ThreadedServer
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from .scheduler import SchedulerService
+from scheduler import SchedulerService
 
 if __name__ == '__main__':
     scheduler = BackgroundScheduler()

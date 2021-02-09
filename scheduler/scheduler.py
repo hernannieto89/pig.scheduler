@@ -1,5 +1,7 @@
+import rpyc
+
 from apscheduler.schedulers.background import BackgroundScheduler
-from utils import perform_action
+from .utils import perform_action
 
 class SchedulerService(rpyc.Service):
     def exposed_add_job(self, *args, **kwargs):

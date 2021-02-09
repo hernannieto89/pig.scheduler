@@ -6,6 +6,5 @@ ACTION_URL_TEMPLATE = "http://localhost:5000/actions/{action_type}/{action_id}/{
 
 def perform_action(action_template):
     action_type, action_id, action_mode = action_template.split("-")
-        # REPLACE WITH REQUEST!
     url = ACTION_URL_TEMPLATE.format(action_type=action_type, action_id=action_id, action_mode=action_mode)
     requests.post(url)
