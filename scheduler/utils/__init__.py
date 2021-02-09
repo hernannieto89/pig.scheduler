@@ -1,3 +1,3 @@
-from scheduler.utils.base import perform_action
+from scheduler.utils.base import run
 
-__all__ = ["perform_action"]
+__all__ = ["run"]
