@@ -16,15 +16,15 @@ class SchedulerService(rpyc.Service):
     def exposed_reschedule_job(self, job_id, jobstore=None, trigger=None, **trigger_args):
         return self.scheduler.reschedule_job(job_id, jobstore, trigger, **trigger_args)
 
-    def exposed_pause_job(self, job_id, jobstore=None):
+    def exposed_pause_job(self, job_id, relays_used, jobstore=None):
+        teardown_relays(relays_used)
         return self.scheduler.pause_job(job_id, jobstore)
 
     def exposed_resume_job(self, job_id, jobstore=None):
         return self.scheduler.resume_job(job_id, jobstore)
 
-    def exposed_remove_job(self, job_id, relays_used, jobstore=None):
-        teardown_relays(relays_used)
-        self.scheduler.remove_job(job_id, jobstore)
+    def exposed_remove_job(self, job_id, jobstore=None):
+        return self.scheduler.remove_job(job_id, jobstore)
 
     def exposed_get_job(self, job_id):
         return self.scheduler.get_job(job_id)
