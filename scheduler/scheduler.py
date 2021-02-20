@@ -17,8 +17,8 @@ class SchedulerService(rpyc.Service):
         return self.scheduler.reschedule_job(job_id, jobstore, trigger, **trigger_args)
 
     def exposed_pause_job(self, job_id, relays_used, jobstore=None):
+        self.scheduler.pause_job(job_id, jobstore)
         teardown_relays(relays_used)
-        return self.scheduler.pause_job(job_id, jobstore)
 
     def exposed_resume_job(self, job_id, jobstore=None):
         return self.scheduler.resume_job(job_id, jobstore)
