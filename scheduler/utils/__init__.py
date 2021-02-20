@@ -1,3 +1,3 @@
-from scheduler.utils.base import run
+from scheduler.utils.base import run, teardown_relays
 
-__all__ = ["run"]
+__all__ = ["run", "teardown_relays"]

@@ -1,7 +1,7 @@
 import rpyc
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from .utils import run
+from .utils import run, teardown_relays
 
 class SchedulerService(rpyc.Service):
     def exposed_add_job(self, *args, **kwargs):
@@ -19,7 +19,8 @@ class SchedulerService(rpyc.Service):
     def exposed_resume_job(self, job_id, jobstore=None):
         return scheduler.resume_job(job_id, jobstore)
 
-    def exposed_remove_job(self, job_id, jobstore=None):
+    def exposed_remove_job(self, job_id, relays_used, jobstore=None):
+        teardown_relays(relays_used)
         scheduler.remove_job(job_id, jobstore)
 
     def exposed_get_job(self, job_id):

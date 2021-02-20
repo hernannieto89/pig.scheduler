@@ -20,6 +20,11 @@ def run(conditions, actions_dict):
     _perform_action(action_template)
 
 
+def teardown_relays(relays_used):
+    for relay in relays_used:
+        _perform_action("Relay-{}-LOW".format(relay))
+
+
 def _perform_action(action_template):
     action_type, action_id, action_mode = action_template.split("-")
     url = ACTION_URL_TEMPLATE.format(action_type=action_type, action_id=action_id, action_mode=action_mode)
