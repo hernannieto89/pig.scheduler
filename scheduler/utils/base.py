@@ -15,7 +15,7 @@ SENSOR_URL_TEMPLATE = "http://localhost:5000/sensors/{sensor_type}/{sensor_id}"
 ACTION_URL_TEMPLATE = "http://localhost:5000/actions/{action_type}/{action_id}/{action_mode}"
 
 
-def run(job, conditions, actions_dict, work_time, sleep_time, teardown_action):
+def run(conditions, actions_dict, work_time, sleep_time, teardown_action):
     rule_value = _parse_conditions(conditions)
     action_template = json.loads(actions_dict)[rule_value]
     _perform_action(action_template)
