@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 
 VALID_BOOLEANS = ["True", "False"]
@@ -14,10 +15,14 @@ SENSOR_URL_TEMPLATE = "http://localhost:5000/sensors/{sensor_type}/{sensor_id}"
 ACTION_URL_TEMPLATE = "http://localhost:5000/actions/{action_type}/{action_id}/{action_mode}"
 
 
-def run(conditions, actions_dict):
+def run(job, conditions, actions_dict, work_time, sleep_time, teardown_action):
     rule_value = _parse_conditions(conditions)
     action_template = json.loads(actions_dict)[rule_value]
     _perform_action(action_template)
+    if rule_value == "True" and work_time:
+        time.sleep(work_time)
+        _perform_action(teardown_action)
+        time.sleep(sleep_time)
 
 
 def teardown_relays(relays_used):
