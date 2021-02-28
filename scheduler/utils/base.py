@@ -12,7 +12,7 @@ ACTION_TEMPLATE = "{action_type}-{action_id}-{action_mode}"
 
 SENSOR_URL_TEMPLATE = "http://localhost:5000/sensors/{sensor_type}/{sensor_id}"
 
-ACTION_URL_TEMPLATE = "http://localhost:5000/actions/{action_type}/{action_id}/{action_mode}"
+ACTION_URL_TEMPLATE = "http://localhost:5000/actions/{action_type}/{action_id}"
 
 
 def run(conditions, actions_dict, work_time, sleep_time, teardown_action):
@@ -32,8 +32,8 @@ def teardown_relays(relays_used):
 
 def _perform_action(action_template):
     action_type, action_id, action_mode = action_template.split("-")
-    url = ACTION_URL_TEMPLATE.format(action_type=action_type, action_id=action_id, action_mode=action_mode)
-    requests.post(url)
+    url = ACTION_URL_TEMPLATE.format(action_type=action_type, action_id=action_id)
+    requests.post(url, action_mode=action_mode)
 
 
 def _parse_conditions(conditions):
