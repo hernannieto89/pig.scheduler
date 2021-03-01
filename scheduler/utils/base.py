@@ -33,7 +33,7 @@ def teardown_relays(relays_used):
 def _perform_action(action_template):
     action_type, action_id, action_mode = action_template.split("-")
     url = ACTION_URL_TEMPLATE.format(action_type=action_type, action_id=action_id)
-    requests.post(url, params={"action_mode" : action_mode})
+    requests.post(url, data={"action_mode" : action_mode})
 
 
 def _parse_conditions(conditions):
