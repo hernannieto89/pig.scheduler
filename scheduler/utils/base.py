@@ -26,7 +26,7 @@ def run(conditions, actions_dict, work_time, sleep_time, teardown_action):
 
 
 def teardown_relays(relays_used):
-    for relay in relays_used:
+    for relay in json.loads(relays_used):
         _perform_action("Relay-{}-LOW".format(relay))
 
 
