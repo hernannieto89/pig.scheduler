@@ -50,7 +50,8 @@ def _parse_conditions(conditions):
             target_metric, connector, target_value = splitted[2].split("_")
             if connector in VALID_CONNECTORS:
                 print("Sensor condition!")
-                sensor_type, sensor_id, _ = splitted[0].split("-")
+                sensor_type = splitted[0]
+                sensor_id = splitted[1]
                 print(sensor_type, sensor_id, target_metric)
                 sensor_value = _get_sensor_value(sensor_type, sensor_id, target_metric)
                 evaluated_condition = _evaluate_condition(sensor_value, connector, target_value)
