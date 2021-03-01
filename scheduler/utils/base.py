@@ -72,5 +72,5 @@ def _evaluate_condition(sensor_value, connector, target_value):
 
 def _get_sensor_value(sensor_type, sensor_id, sensor_metric):
     url = SENSOR_URL_TEMPLATE.format(sensor_type=sensor_type, sensor_id=sensor_id)
-    response = requests.get(url)
+    response = requests.get(url).json()
     return response[sensor_metric]
