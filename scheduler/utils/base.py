@@ -46,13 +46,15 @@ def _parse_conditions(conditions):
         splitted = condition.split("-")
         if len(splitted) == 1:
             result.append(bool(condition))
-        if len(splitted) == 3 and splitted[1] in VALID_CONNECTORS:
-            connector = splitted[1]
-            sensor_type, sensor_id, sensor_metric = splitted[0].split("-")
-            sensor_value = _get_sensor_value(sensor_type, sensor_id, sensor_metric)
-            target_value = eval(splitted[2])
-            evaluated_condition = _evaluate_condition(sensor_value, connector, target_value)
-            result.append(evaluated_condition)
+        if len(splitted) == 3:
+            target_metric, connector, target_value = splitted[2].split("_")
+            if connector in VALID_CONNECTORS:
+                print("Sensor condition!")
+                sensor_type, sensor_id, _ = splitted[0].split("-")
+                print(sensor_type, sensor_id, target_metric)
+                sensor_value = _get_sensor_value(sensor_type, sensor_id, target_metric)
+                evaluated_condition = _evaluate_condition(sensor_value, connector, target_value)
+                result.append(evaluated_condition)
     if all(result):
         return "True"
     else:
