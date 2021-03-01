@@ -63,11 +63,11 @@ def _parse_conditions(conditions):
 
 
 def _evaluate_condition(sensor_value, connector, target_value):
-    if connector == "GT": return sensor_value > target_value
-    elif connector == "GE": return sensor_value >= target_value
-    elif connector == "LT": return sensor_value < target_value
-    elif connector == "LE": return sensor_value <= target_value
-    elif connector == "EQ": return sensor_value == target_value
+    if connector == "GT": return float(sensor_value) > float(target_value)
+    elif connector == "GE": return float(sensor_value) >= float(target_value)
+    elif connector == "LT": return float(sensor_value) < float(target_value)
+    elif connector == "LE": return float(sensor_value) <= float(target_value)
+    elif connector == "EQ": return float(sensor_value) == float(target_value)
 
 
 def _get_sensor_value(sensor_type, sensor_id, sensor_metric):
