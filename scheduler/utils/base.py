@@ -52,7 +52,7 @@ def _parse_conditions(conditions):
                 print("Sensor condition!")
                 sensor_type = splitted[0]
                 sensor_id = splitted[1]
-                print(sensor_type, sensor_id, target_metric)
+                print(sensor_type, sensor_id, target_metric, connector, target_value)
                 sensor_value = _get_sensor_value(sensor_type, sensor_id, target_metric)
                 evaluated_condition = _evaluate_condition(sensor_value, connector, target_value)
                 result.append(evaluated_condition)
