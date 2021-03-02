@@ -73,14 +73,14 @@ def _evaluate_dates(sensor_value, connector, target_value, target_metric):
 
     if connector == "BT":
         start, end = target_value.split(".")
-        if target_metric == "H": start_date = {"hour": start}; end_date = {"hour": end}; sensor_date = {"hour": sensor_date}
-        if target_metric == "M": start_date = {"minute": start}; end_date = {"minute": end}; sensor_date = {"minute": sensor_date}
-        if target_metric == "S": start_date = {"second": start}; end_date = {"second": end}; sensor_date = {"second": sensor_date}
-        return _between_dates( datetime.time(**start_date),  datetime.time(**end_date),  datetime.time(**sensor_value))
+        if target_metric == "H": start_date = {"hour": int(start)}; end_date = {"hour":  int(end)}; sensor_date = {"hour":  int(sensor_value)}
+        if target_metric == "M": start_date = {"minute":  int(start)}; end_date = {"minute":  int(end)}; sensor_date = {"minute":  int(sensor_value)}
+        if target_metric == "S": start_date = {"second":  int(start)}; end_date = {"second":  int(end)}; sensor_date = {"second":  int(sensor_value)}
+        return _between_dates( datetime.time(**start_date),  datetime.time(**end_date),  datetime.time(**sensor_date))
 
-    if target_metric == "H": target_date = {"hour": target_value}; sensor_date = {"hour": sensor_date}
-    if target_metric == "M": target_date = {"minute": target_value}; sensor_date = {"minute": sensor_date}
-    if target_metric == "S": target_date = {"second": target_value}; sensor_date = {"second": sensor_date}
+    if target_metric == "H": target_date = {"hour": target_value}; sensor_date = {"hour": sensor_value}
+    if target_metric == "M": target_date = {"minute": target_value}; sensor_date = {"minute": sensor_value}
+    if target_metric == "S": target_date = {"second": target_value}; sensor_date = {"second": sensor_value}
 
     if connector == "GT": return datetime.time(**sensor_date) > datetime.time(**target_date)
     elif connector == "GE": return datetime.time(**sensor_date) >= datetime.time(**target_date)
