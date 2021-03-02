@@ -76,7 +76,7 @@ def _evaluate_dates(sensor_value, connector, target_value, target_metric):
         start_date = datetime.time(hour=int(start))
         end_date = datetime.time(hour=int(end))
         if target_metric == "H":
-            sensor_date = datetime.time(hour=int(sensor_value))}
+            sensor_date = datetime.time(hour=int(sensor_value))
         return _between_dates(start_date, end_date, sensor_date)
 
     if target_metric == "H": target_date = datetime.time(hour=int(target_value)); sensor_date = datetime.time(hour=int(sensor_value))
