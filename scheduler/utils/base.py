@@ -1,7 +1,7 @@
 import requests
 import json
 import time
-
+import datetime
 
 VALID_BOOLEANS = ["True", "False"]
 VALID_CONNECTORS = ["GT", "LT", "EQ", "GE", "LE"]
@@ -76,17 +76,17 @@ def _evaluate_dates(sensor_value, connector, target_value, target_metric):
         if target_metric == "H": start_date = {"hour": start}; end_date = {"hour": end}; sensor_date = {"hour": sensor_date}
         if target_metric == "M": start_date = {"minute": start}; end_date = {"minute": end}; sensor_date = {"minute": sensor_date}
         if target_metric == "S": start_date = {"second": start}; end_date = {"second": end}; sensor_date = {"second": sensor_date}
-        return _between_dates(start_date, end_date, sensor_value)
+        return _between_dates( datetime.time(**start_date),  datetime.time(**end_date),  datetime.time(**sensor_value))
 
     if target_metric == "H": target_date = {"hour": target_value}; sensor_date = {"hour": sensor_date}
     if target_metric == "M": target_date = {"minute": target_value}; sensor_date = {"minute": sensor_date}
     if target_metric == "S": target_date = {"second": target_value}; sensor_date = {"second": sensor_date}
 
-    if connector == "GT": return time(sensor_date) > time(**target_date)
-    elif connector == "GE": return time(sensor_date) >= time(**target_date)
-    elif connector == "LT": return time(sensor_date) < time(**target_date)
-    elif connector == "LE": return time(sensor_date) <= time(**target_date)
-    elif connector == "EQ": return time(sensor_date) == time(**target_date)
+    if connector == "GT": return datetime.time(**sensor_date) > datetime.time(**target_date)
+    elif connector == "GE": return datetime.time(**sensor_date) >= datetime.time(**target_date)
+    elif connector == "LT": return datetime.time(**sensor_date) < datetime.time(**target_date)
+    elif connector == "LE": return datetime.time(**sensor_date) <= datetime.time(**target_date)
+    elif connector == "EQ": return datetime.time(**sensor_date) == datetime.time(**target_date)
 
 
 def _evaluate_num(sensor_value, connector, target_value):
@@ -103,8 +103,8 @@ def _get_sensor_value(sensor_type, sensor_id, sensor_metric):
     return response[sensor_metric]
 
 
-def _between_dates(start, end, value):
-    if begin_time < end_time:
-        return check_time >= start and check_time <= end
+def _between_dates(start_date, end_date, value_date):
+    if start_date < end_date:
+        return value_date >= start_date and value_date <= end_date
     else: # crosses midnight
-        return check_time >= start or check_time <= end
+        return value_date >= start_date or value_date <= end_date
