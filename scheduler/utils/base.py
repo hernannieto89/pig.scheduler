@@ -20,9 +20,9 @@ def run(conditions, actions_dict, work_time, sleep_time, teardown_action):
     action_template = json.loads(actions_dict)[rule_value]
     _perform_action(action_template)
     if rule_value == "True" and work_time:
-        time.sleep(work_time)
+        time.sleep(int(work_time))
         _perform_action(teardown_action)
-        time.sleep(sleep_time)
+        time.sleep(int(sleep_time))
 
 
 def teardown_relays(relays_used):
@@ -71,16 +71,16 @@ def _evaluate_condition(sensor_type, sensor_value, connector, target_value, targ
 
 def _evaluate_dates(sensor_value, connector, target_value, target_metric):
 
-    if connector == "BT":
+    if connector == "BT" and target_metric == "H":
         start, end = target_value.split(".")
         if target_metric == "H": start_date = {"hour": int(start)}; end_date = {"hour":  int(end)}; sensor_date = {"hour":  int(sensor_value)}
         if target_metric == "M": start_date = {"minute":  int(start)}; end_date = {"minute":  int(end)}; sensor_date = {"minute":  int(sensor_value)}
         if target_metric == "S": start_date = {"second":  int(start)}; end_date = {"second":  int(end)}; sensor_date = {"second":  int(sensor_value)}
-        return _between_dates( datetime.time(**start_date),  datetime.time(**end_date),  datetime.time(**sensor_date))
+        return _between_dates(datetime.time(**start_date), datetime.time(**end_date), datetime.time(**sensor_date))
 
-    if target_metric == "H": target_date = {"hour": target_value}; sensor_date = {"hour": sensor_value}
-    if target_metric == "M": target_date = {"minute": target_value}; sensor_date = {"minute": sensor_value}
-    if target_metric == "S": target_date = {"second": target_value}; sensor_date = {"second": sensor_value}
+    if target_metric == "H": target_date = {"hour": int(target_value)}; sensor_date = {"hour": int(sensor_value)}
+    if target_metric == "M": target_date = {"minute": int(target_value)}; sensor_date = {"minute": int(sensor_value)}
+    if target_metric == "S": target_date = {"second": int(target_value)}; sensor_date = {"second": int(sensor_value)}
 
     if connector == "GT": return datetime.time(**sensor_date) > datetime.time(**target_date)
     elif connector == "GE": return datetime.time(**sensor_date) >= datetime.time(**target_date)
