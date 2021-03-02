@@ -73,20 +73,22 @@ def _evaluate_dates(sensor_value, connector, target_value, target_metric):
 
     if connector == "BT" and target_metric == "H":
         start, end = target_value.split(".")
-        if target_metric == "H": start_date = {"hour": int(start)}; end_date = {"hour":  int(end)}; sensor_date = {"hour":  int(sensor_value)}
-        if target_metric == "M": start_date = {"minute":  int(start)}; end_date = {"minute":  int(end)}; sensor_date = {"minute":  int(sensor_value)}
-        if target_metric == "S": start_date = {"second":  int(start)}; end_date = {"second":  int(end)}; sensor_date = {"second":  int(sensor_value)}
-        return _between_dates(datetime.time(**start_date), datetime.time(**end_date), datetime.time(**sensor_date))
+        start_date = datetime.time(hour=int(start))
+        end_date = datetime.time(hour=int(end))
+        if target_metric == "H":
+            sensor_date = datetime.time(hour=int(sensor_value))}
+        return _between_dates(start_date, end_date, sensor_date)
 
-    if target_metric == "H": target_date = {"hour": int(target_value)}; sensor_date = {"hour": int(sensor_value)}
-    if target_metric == "M": target_date = {"minute": int(target_value)}; sensor_date = {"minute": int(sensor_value)}
-    if target_metric == "S": target_date = {"second": int(target_value)}; sensor_date = {"second": int(sensor_value)}
+    if target_metric == "H": target_date = datetime.time(hour=int(target_value)); sensor_date = datetime.time(hour=int(sensor_value))
+    if target_metric == "M": target_date = datetime.time(minute=int(target_value)); sensor_date = datetime.time(minute=int(sensor_value))
+    if target_metric == "S": target_date = datetime.time(second=int(target_value)); sensor_date = datetime.time(second=int(sensor_value))
 
-    if connector == "GT": return datetime.time(**sensor_date) > datetime.time(**target_date)
-    elif connector == "GE": return datetime.time(**sensor_date) >= datetime.time(**target_date)
-    elif connector == "LT": return datetime.time(**sensor_date) < datetime.time(**target_date)
-    elif connector == "LE": return datetime.time(**sensor_date) <= datetime.time(**target_date)
-    elif connector == "EQ": return datetime.time(**sensor_date) == datetime.time(**target_date)
+    if connector == "BT": return sensor_date >= start_date and sensor_date <= end_date
+    elif connector == "GT": return sensor_date > target_date
+    elif connector == "GE": return sensor_date >= target_date
+    elif connector == "LT": return sensor_date < target_date
+    elif connector == "LE": return sensor_date <= target_date
+    elif connector == "EQ": return sensor_date == target_date
 
 
 def _evaluate_num(sensor_value, connector, target_value):
