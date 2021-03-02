@@ -63,20 +63,28 @@ def _parse_conditions(conditions):
 
 
 def _evaluate_condition(sensor_type, sensor_value, connector, target_value, target_metric):
+    print(f"sensor type {sensor_type}")
+    print(f"sensor type {sensor_value}")
+    print(f"sensor type {connector}")
+    print(f"sensor type {target_value}")
+    print(f"sensor type {target_metric}")
+
     if sensor_type == "Clock":
+        print("EVALUATES CLOCK")
         return _evaluate_dates(sensor_value, connector, target_value, target_metric)
     else:
+        print("EVALUATES NUM")
         return _evaluate_num(sensor_value, connector, target_value)
 
 
 def _evaluate_dates(sensor_value, connector, target_value, target_metric):
 
     if connector == "BT" and target_metric == "H":
+        print("BT and H")
         start, end = target_value.split(".")
         start_date = datetime.time(hour=int(start))
         end_date = datetime.time(hour=int(end))
-        if target_metric == "H":
-            sensor_date = datetime.time(hour=int(sensor_value))
+        sensor_date = datetime.time(hour=int(sensor_value))
         return _between_dates(start_date, end_date, sensor_date)
 
     if target_metric == "H": target_date = datetime.time(hour=int(target_value)); sensor_date = datetime.time(hour=int(sensor_value))
