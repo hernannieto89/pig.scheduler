@@ -4,7 +4,6 @@ import time
 import datetime
 import logging
 
-logger = logging.getLogger('apscheduler').setLevel(logging.INFO)
 
 VALID_BOOLEANS = ["True", "False"]
 VALID_CONNECTORS = ["GT", "LT", "EQ", "GE", "LE"]
@@ -19,8 +18,9 @@ ACTION_URL_TEMPLATE = "http://localhost:5000/actions/{action_type}/{action_id}"
 
 
 def run(conditions, actions_dict, work_time, sleep_time, teardown_action):
+    logger = logging.getLogger('apscheduler').setLevel(logging.INFO)
     rule_value = _parse_conditions(conditions)
-    logger.info(f"RULE VALUE: {rule_value}")
+    logger.info(f"RULE VALUE: {rule_value}")q
     action_template = json.loads(actions_dict)[rule_value]
     logger.info(f"ACTION TEMPLATE: {action_template}")
     _perform_action(action_template)
@@ -46,7 +46,7 @@ def _parse_conditions(conditions):
     Returns True if all conditions al met. False otherwise.
     """
     result = []
-
+    logger = logging.getLogger('apscheduler').setLevel(logging.INFO)
     for condition in json.loads(conditions):
         splitted = condition.split("-")
         if len(splitted) == 1:
@@ -68,6 +68,7 @@ def _parse_conditions(conditions):
 
 
 def _evaluate_condition(sensor_type, sensor_value, connector, target_value, target_metric):
+    logger = logging.getLogger('apscheduler').setLevel(logging.INFO)
     logger.info(f"sensor type {sensor_type}")
     logger.info(f"sensor type {sensor_value}")
     logger.info(f"sensor type {connector}")
@@ -83,7 +84,7 @@ def _evaluate_condition(sensor_type, sensor_value, connector, target_value, targ
 
 
 def _evaluate_dates(sensor_value, connector, target_value, target_metric):
-
+    logger = logging.getLogger('apscheduler').setLevel(logging.INFO)
     if connector == "BT" and target_metric == "H":
         logger.info("BT and H")
         start, end = target_value.split(".")
