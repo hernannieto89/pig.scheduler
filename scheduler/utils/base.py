@@ -20,7 +20,7 @@ ACTION_URL_TEMPLATE = "http://localhost:5000/actions/{action_type}/{action_id}"
 
 def run(conditions, actions_dict, work_time, sleep_time, teardown_action):
     rule_value = _parse_conditions(conditions)
-    logger.info(f"RULE VALUE: {rule_value}"
+    logger.info(f"RULE VALUE: {rule_value}")
     action_template = json.loads(actions_dict)[rule_value]
     logger.info(f"ACTION TEMPLATE: {action_template}")
     _perform_action(action_template)
