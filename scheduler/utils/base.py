@@ -2,6 +2,9 @@ import requests
 import json
 import time
 import datetime
+import logging
+
+logger = logging.getLogger('apscheduler').setLevel(logging.INFO)
 
 VALID_BOOLEANS = ["True", "False"]
 VALID_CONNECTORS = ["GT", "LT", "EQ", "GE", "LE"]
@@ -17,7 +20,9 @@ ACTION_URL_TEMPLATE = "http://localhost:5000/actions/{action_type}/{action_id}"
 
 def run(conditions, actions_dict, work_time, sleep_time, teardown_action):
     rule_value = _parse_conditions(conditions)
+    logger.info(f"RULE VALUE: {rule_value}"
     action_template = json.loads(actions_dict)[rule_value]
+    logger.info(f"ACTION TEMPLATE: {action_template}")
     _perform_action(action_template)
     if rule_value == "True" and work_time:
         time.sleep(int(work_time))
@@ -49,10 +54,10 @@ def _parse_conditions(conditions):
         if len(splitted) == 3:
             target_metric, connector, target_value = splitted[2].split("_")
             if connector in VALID_CONNECTORS:
-                print("Sensor condition!")
+                logger.info("Sensor condition!")
                 sensor_type = splitted[0]
                 sensor_id = splitted[1]
-                print(sensor_type, sensor_id, target_metric, connector, target_value)
+                logger.info(f"{sensor_type}, {sensor_id}, {target_metric}, {connector}, {target_value}")
                 sensor_value = _get_sensor_value(sensor_type, sensor_id, target_metric)
                 evaluated_condition = _evaluate_condition(sensor_type, sensor_value, connector, target_value, target_metric)
                 result.append(evaluated_condition)
@@ -63,24 +68,24 @@ def _parse_conditions(conditions):
 
 
 def _evaluate_condition(sensor_type, sensor_value, connector, target_value, target_metric):
-    print(f"sensor type {sensor_type}")
-    print(f"sensor type {sensor_value}")
-    print(f"sensor type {connector}")
-    print(f"sensor type {target_value}")
-    print(f"sensor type {target_metric}")
+    logger.info(f"sensor type {sensor_type}")
+    logger.info(f"sensor type {sensor_value}")
+    logger.info(f"sensor type {connector}")
+    logger.info(f"sensor type {target_value}")
+    logger.info(f"sensor type {target_metric}")
 
     if sensor_type == "Clock":
-        print("EVALUATES CLOCK")
+        logger.info("EVALUATES CLOCK")
         return _evaluate_dates(sensor_value, connector, target_value, target_metric)
     else:
-        print("EVALUATES NUM")
+        logger.info("EVALUATES NUM")
         return _evaluate_num(sensor_value, connector, target_value)
 
 
 def _evaluate_dates(sensor_value, connector, target_value, target_metric):
 
     if connector == "BT" and target_metric == "H":
-        print("BT and H")
+        logger.info("BT and H")
         start, end = target_value.split(".")
         start_date = datetime.time(hour=int(start))
         end_date = datetime.time(hour=int(end))
