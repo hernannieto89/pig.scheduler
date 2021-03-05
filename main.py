@@ -5,7 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from scheduler import SchedulerService
 
 if __name__ == '__main__':
-    scheduler = BackgroundScheduler()
+    scheduler = BackgroundScheduler({'apscheduler.timezone': 'America/Argentina/Cordoba'})
     scheduler.start()
     protocol_config = {'allow_public_attrs': True}
     server = ThreadedServer(SchedulerService(scheduler), port=12345, protocol_config=protocol_config)
