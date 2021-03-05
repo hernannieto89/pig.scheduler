@@ -1,6 +1,9 @@
 import rpyc
 
+from datetime import datetime
+
 from .utils import run, teardown_relays
+
 
 class SchedulerService(rpyc.Service):
 
@@ -8,6 +11,7 @@ class SchedulerService(rpyc.Service):
         self.scheduler = scheduler
 
     def exposed_add_job(self, *args, **kwargs):
+        kwargs["next_run_time"]: datetime.now()
         return self.scheduler.add_job(run, *args, **kwargs)
 
     def exposed_modify_job(self, job_id, jobstore=None, **changes):
