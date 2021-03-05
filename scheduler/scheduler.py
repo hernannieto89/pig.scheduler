@@ -11,7 +11,7 @@ class SchedulerService(rpyc.Service):
         self.scheduler = scheduler
 
     def exposed_add_job(self, *args, **kwargs):
-        return self.scheduler.add_job(run, *args, next_run_time=datetime.datetime.now(), **kwargs)
+        return self.scheduler.add_job(run, *args, next_run_time=datetime.now(), **kwargs)
 
     def exposed_modify_job(self, job_id, jobstore=None, **changes):
         return self.scheduler.modify_job(job_id, jobstore, **changes)
